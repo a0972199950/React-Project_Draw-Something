@@ -5,6 +5,7 @@ import { Provider } from "react-redux"
 import ConfigureStore from "./store/ConfigureStore";
 import PlayersStatus from "./components/PlayersStatus";
 import DrawerCanvas from "./components/DrawerCanvas";
+import PickerCanvas from "./components/PickerCanvas";
 import PickingArea from "./components/PickingArea";
 
 
@@ -13,6 +14,7 @@ const jsx = (
     <Provider store={store}>
         <PlayersStatus />
         <DrawerCanvas />
+        <PickerCanvas />
         <PickingArea />
     </Provider>
 )

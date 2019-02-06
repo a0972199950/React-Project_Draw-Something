@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { setDrawingStatus, updateCoor } from "../actions/canvas";
+
 class DrawerCanvas extends React.Component{
     state = {
         canvas: "",
@@ -27,9 +29,14 @@ class DrawerCanvas extends React.Component{
         const y = device !== "touch" ? (e.nativeEvent.offsetY) : (e.nativeEvent.targetTouches[0].pageY - canvas.offsetTop);
         const ctx = this.state.ctx;
 
+        // 繪圖
         ctx.lineWidth = 5;
         ctx.beginPath();
         ctx.moveTo(x, y);
+
+        // 更新status
+        this.props.setDrawingStatus("start");
+        this.props.updateCoor(x, y);
     }
 
     handleDrawingEnd = () => {
@@ -37,8 +44,12 @@ class DrawerCanvas extends React.Component{
             isDrawing: false
         });
 
+        // 繪圖
         const ctx = this.state.ctx;
-        ctx.closePath();
+        // ctx.closePath();
+
+        // 更新status
+        this.props.setDrawingStatus("end");
     }
 
     handleDrawingMove = (e, device) => {
@@ -50,8 +61,13 @@ class DrawerCanvas extends React.Component{
             const y = device !== "touch" ? (e.nativeEvent.offsetY) : (e.nativeEvent.targetTouches[0].pageY - canvas.offsetTop);
             const ctx = this.state.ctx;
 
+            // 繪圖
             ctx.lineTo(x, y);
             ctx.stroke();
+
+            // 更新state
+            this.props.setDrawingStatus("drawing");
+            this.props.updateCoor(x, y);
         }
     }
 
@@ -80,4 +96,17 @@ class DrawerCanvas extends React.Component{
 };
 
 
-export default DrawerCanvas;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setDrawingStatus: (drawingStatus) => {
+            dispatch(setDrawingStatus(drawingStatus))
+        },
+
+        updateCoor: (x, y) => {
+            dispatch(updateCoor(x, y))
+        }
+    };
+}
+
+
+export default connect(undefined, mapDispatchToProps)(DrawerCanvas);

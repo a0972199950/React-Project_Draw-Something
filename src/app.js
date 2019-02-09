@@ -27,13 +27,13 @@ firebase.auth().onAuthStateChanged((user) => {
         const { uid, displayName, photoURL } = user;
         store.dispatch(login(uid, displayName, photoURL));
 
-        history.push("/role");
+        // history.push("/role");
     } else{
         console.log("logout");
 
         store.dispatch(logout());
 
-        history.push("/");
+        // history.push("/");
     }
 })
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { setDrawingStatus, updateCoor } from "../actions/canvas";
+import { startSetDrawingStatusAndCoor } from "../actions/canvas";
 
 class DrawerCanvas extends React.Component{
     state = {
@@ -35,8 +35,7 @@ class DrawerCanvas extends React.Component{
         ctx.moveTo(x, y);
 
         // 更新status
-        this.props.setDrawingStatus("start");
-        this.props.updateCoor(x, y);
+        this.props.startSetDrawingStatusAndCoor("start", x, y);
     }
 
     handleDrawingEnd = () => {
@@ -49,7 +48,7 @@ class DrawerCanvas extends React.Component{
         // ctx.closePath();
 
         // 更新status
-        this.props.setDrawingStatus("end");
+        this.props.startSetDrawingStatusAndCoor("end", 0, 0);
     }
 
     handleDrawingMove = (e, device) => {
@@ -66,8 +65,7 @@ class DrawerCanvas extends React.Component{
             ctx.stroke();
 
             // 更新state
-            this.props.setDrawingStatus("drawing");
-            this.props.updateCoor(x, y);
+            this.props.startSetDrawingStatusAndCoor("drawing", x, y);
         }
     }
 
@@ -98,12 +96,8 @@ class DrawerCanvas extends React.Component{
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setDrawingStatus: (drawingStatus) => {
-            dispatch(setDrawingStatus(drawingStatus))
-        },
-
-        updateCoor: (x, y) => {
-            dispatch(updateCoor(x, y))
+        startSetDrawingStatusAndCoor: (drawingStatus, x, y) => {
+            dispatch(startSetDrawingStatusAndCoor(drawingStatus, x, y));
         }
     };
 }

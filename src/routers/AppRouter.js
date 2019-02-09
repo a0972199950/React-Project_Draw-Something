@@ -4,6 +4,7 @@ import createHitory from "history/createBrowserHistory";
 
 import LoginPage from "../components/LoginPage";
 import RolePage from "../components/RolePage";
+import GamePage from "../components/GamePage";
 
 const history = createHitory();
 
@@ -20,7 +21,8 @@ const AppRouter = () => {
             {/* 而若只使用<Route>，則預設會匹配所有match的<Route> */}
             <Switch>
                 <Route exact path="/" component={LoginPage} />
-                <Route path="/role/" component={RolePage} />
+                <Route path="/role" component={RolePage} />
+                <Route path="/game" component={GamePage} />
             </Switch>
         </Router>
     )

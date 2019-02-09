@@ -62,12 +62,12 @@ const PlayersStatus = (props) => {
 
             <div>
                 <div>
-                    <img src="https://picsum.photos/100/100" alt=""/>
+                    <img src={props.myself.picture ? props.myself.picture : "/images/no-picture.jpg"} alt=""/>
                     <p>{props.myself.currentPoint}分</p>
                 </div>
 
                 <div>
-                    <img src="https://picsum.photos/99/99" alt=""/>
+                    <img src={props.opponent.picture ? props.opponent.picture : "/images/no-picture.jpg"} alt=""/>
                     <p>{props.opponent.currentPoint}分</p>
                 </div>
             </div>

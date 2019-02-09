@@ -1,16 +1,18 @@
 const playersReducerDefaultState = {
     myself: {
         role: "drawer",
-        currentPoint: 0
+        currentPoint: 0,
+        picture: ""
     },
     opponent: {
         role: "picker",
-        currentPoint: 0
+        currentPoint: 0,
+        picture: ""
     }
 }
 
 export default (state = playersReducerDefaultState, action) => {
-    switch(action.type){
+    switch (action.type) {
         case "MYSELF_GET_ONE_POINT":
             return {
                 ...state,
@@ -31,7 +33,6 @@ export default (state = playersReducerDefaultState, action) => {
 
         case "SET_ROUND":
             return {
-                ...state,
                 myself: {
                     ...state.myself,
                     role: action.myself
@@ -42,9 +43,45 @@ export default (state = playersReducerDefaultState, action) => {
                 }
             };
 
+        case "SET_MYSELF_PICTURE":
+            return {
+                ...state,
+                myself: {
+                    ...state.myself,
+                    picture: action.picture
+                }
+            };
+
+        case "SET_OPPONENT_PICTURE":
+            return {
+                ...state,
+                opponent: {
+                    ...state.opponent,
+                    picture: action.picture
+                }
+            }
+
+        case "REMOVE_MYSELF_PICTURE":
+            return {
+                ...state,
+                myself: {
+                    ...state.myself,
+                    picture: ""
+                }
+            };
+
+        case "REMOVE_OPPONENT_PICTURE":
+            return {
+                ...state,
+                opponent: {
+                    ...state.opponent,
+                    picture: ""
+                }
+            };
+
         default:
             return state;
 
     }
-    
+
 }

@@ -3,8 +3,8 @@ import { randomOptsSelector } from "../selectors/questions";
 const questionsReducerDefaultState = {
     quesList: ["題目一", "題目二", "題目三", "題目四", "題目五", "題目六"],
     randomAns: "題目一",
-    randomOpts: [],
-    opt: "題目二"
+    randomOpts: [], // 這個應該不需要，待拿掉
+    opt: "題目二" // 這個應該不需要，待拿掉
 }
 
 export default (state = questionsReducerDefaultState, action) => {

@@ -26,3 +26,11 @@ export const startLogout = () => {
         firebase.auth().signOut();
     }
 }
+
+
+
+
+export const setPlayer = (player) => ({
+    type: "SET_PLAYER",
+    player
+})

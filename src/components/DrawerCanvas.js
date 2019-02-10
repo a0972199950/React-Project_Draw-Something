@@ -7,13 +7,19 @@ class DrawerCanvas extends React.Component{
     state = {
         canvas: "",
         ctx: "",
-        isDrawing: false
+        isDrawing: false,
+        canvasWidth: 0,
+        canvasHeight: 0
     }
 
     componentDidMount = () => {
+        const canvas = document.getElementById("drawerCanvas");
+
         this.setState({
-            canvas: document.getElementById("drawerCanvas"),
-            ctx: document.getElementById("drawerCanvas").getContext("2d")
+            canvas,
+            ctx: canvas.getContext("2d"),
+            canvasWidth: canvas.width,
+            canvasHeight: canvas.height
         });        
     }
 
@@ -35,7 +41,9 @@ class DrawerCanvas extends React.Component{
         ctx.moveTo(x, y);
 
         // 更新status
-        this.props.startSetDrawingStatusAndCoor("start", x, y);
+        const percentX = x / this.state.canvasWidth;
+        const percentY = y / this.state.canvasHeight;
+        this.props.startSetDrawingStatusAndCoor("start", percentX, percentY);
     }
 
     handleDrawingEnd = () => {
@@ -65,7 +73,9 @@ class DrawerCanvas extends React.Component{
             ctx.stroke();
 
             // 更新state
-            this.props.startSetDrawingStatusAndCoor("drawing", x, y);
+            const percentX = x / this.state.canvasWidth;
+            const percentY = y / this.state.canvasHeight;
+            this.props.startSetDrawingStatusAndCoor("drawing", percentX, percentY);
         }
     }
 
@@ -96,8 +106,8 @@ class DrawerCanvas extends React.Component{
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        startSetDrawingStatusAndCoor: (drawingStatus, x, y) => {
-            dispatch(startSetDrawingStatusAndCoor(drawingStatus, x, y));
+        startSetDrawingStatusAndCoor: (drawingStatus, percentX, percentY) => {
+            dispatch(startSetDrawingStatusAndCoor(drawingStatus, percentX, percentY));
         }
     };
 }

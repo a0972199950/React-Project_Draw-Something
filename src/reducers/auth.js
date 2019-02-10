@@ -1,7 +1,8 @@
 const authReducerDefaultState = {
     uid: undefined,
     username: undefined,
-    userPicture: undefined
+    userPicture: undefined,
+    player: undefined
 }
 
 const authReducer = (state = authReducerDefaultState, action) => {
@@ -15,6 +16,12 @@ const authReducer = (state = authReducerDefaultState, action) => {
 
         case "LOGOUT":
             return {};
+
+        case "SET_PLAYER":
+            return {
+                ...state,
+                player: action.player
+            }
 
         default:
             return state;

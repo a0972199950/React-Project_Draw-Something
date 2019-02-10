@@ -7,22 +7,34 @@ class PickerCanvas extends React.Component{
         ctx: "",
         drawingStatus: "end",
         x: 0,
-        y: 0
+        y: 0,
+        canvasWidth: 0,
+        canvasHeight: 0
     }
 
     componentDidMount = () => {
+        const canvas = document.getElementById("pickerCanvas");
+
         this.setState({
-            ctx: document.getElementById("pickerCanvas").getContext("2d")
+            ctx: canvas.getContext("2d"),
+            canvasWidth: canvas.width,
+            canvasHeight: canvas.height
         });
 
         // firebase的on()不回傳Promise，而是直接接受一個callback function做為第二個參數
         database.ref("canvas").on("value", (snapshot) => {
-            const { drawingStatus, x, y } = snapshot.val();
+            const { drawingStatus, percentX, percentY } = snapshot.val();
+            const x = percentX * this.state.canvasWidth;
+            const y = percentY * this.state.canvasHeight;
             
             this.setState({
                 drawingStatus, x, y
             })
         })
+    }
+
+    componentWillUnmount = () => {
+        database.ref("canvas").off();
     }
 
     componentDidUpdate = () => {
@@ -70,8 +82,8 @@ class PickerCanvas extends React.Component{
             <div>
                 <canvas 
                     id="pickerCanvas" 
-                    width="500px" 
-                    height="400px" 
+                    width="400px" 
+                    height="300px" 
                     style={{border: "1px green solid"}}
                 ></canvas>
             </div>

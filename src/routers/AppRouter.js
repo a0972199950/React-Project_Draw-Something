@@ -5,6 +5,12 @@ import createHitory from "history/createBrowserHistory";
 import LoginPage from "../components/LoginPage";
 import RolePage from "../components/RolePage";
 import GamePage from "../components/GamePage";
+import Init from "../components/Init";
+
+import UITest from "../components/UITest";
+
+import PrivateRoute from "../routers/PrivateRoute";
+import PublicRoute from "../routers/PublicRoute";
 
 const history = createHitory();
 
@@ -19,11 +25,13 @@ const AppRouter = () => {
         <Router history={history}>
             {/* <Switch>只會匹配裡面第一個match的<Route>，找到後即停止不會再往下匹配 */}
             {/* 而若只使用<Route>，則預設會匹配所有match的<Route> */}
-            <Switch>
+            <div>
+                <Route path="/" component={UITest} />
                 <Route exact path="/" component={LoginPage} />
                 <Route path="/role" component={RolePage} />
                 <Route path="/game" component={GamePage} />
-            </Switch>
+                <Route path="/init" component={Init} />
+            </div>
         </Router>
     )
 }

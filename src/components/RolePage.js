@@ -1,9 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { startLogout } from "../actions/auth";
-import { setMyselfPicture, setOpponentPicture, removeMyselfPicture } from "../actions/players";
 import { history } from "../routers/AppRouter";
+
+import { startSetPlayer1Picture, startSetPlayer2Picture, setRound } from "../actions/players";
+import { setPlayer } from "../actions/auth";
+
 
 const RolePage = (props) => {
     return (
@@ -12,45 +14,50 @@ const RolePage = (props) => {
             <p>選擇一個角色：</p>
             <button 
                 onClick={() => {
-                    props.setMyselfPicture(props.auth.userPicture);
+                    props.setRound({
+                        player1: "drawer",
+                        player2: "picker"
+                    });
+                    props.setPlayer("player1");
+                    props.startSetPlayer1Picture(props.auth.userPicture);
                     history.push("/game");
                 }}>
-            Drawer</button>
+            Player1(drawer)</button>
 
             <button
                 onClick={() => {
-                    props.setOpponentPicture(props.auth.userPicture);
+                    props.setRound({
+                        player1: "drawer",
+                        player2: "picker"
+                    });
+                    props.setPlayer("player2");
+                    props.startSetPlayer2Picture(props.auth.userPicture);
                     history.push("/game");
                 }}
-            >Picker</button>
-
-            <button onClick={() => {
-                props.removeMyselfPicture();
-                props.startLogout();
-            }}>登出</button>
+            >Player2(picker)</button>
         </div>
     )
 }
 
 const mapStateToProps = (state) => {
     return {
-        auth: state.auth,
+        auth: state.auth
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        startLogout: () => {
-            dispatch(startLogout())
+        startSetPlayer1Picture: (picture) => {
+            dispatch(startSetPlayer1Picture(picture))
         },
-        setMyselfPicture: (picture) => {
-            dispatch(setMyselfPicture(picture))
+        startSetPlayer2Picture: (picture) => {
+            dispatch(startSetPlayer2Picture(picture))
         },
-        setOpponentPicture: (picture) => {
-            dispatch(setOpponentPicture(picture))
+        setRound: (round) => {
+            dispatch(setRound(round));
         },
-        removeMyselfPicture: () => {
-            dispatch(removeMyselfPicture())
+        setPlayer: (player) => {
+            dispatch(setPlayer(player))
         }
     }
 }

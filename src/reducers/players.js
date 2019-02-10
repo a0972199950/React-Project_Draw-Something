@@ -1,10 +1,11 @@
 const playersReducerDefaultState = {
-    myself: {
+    player1: {
         role: "drawer",
         currentPoint: 0,
         picture: ""
     },
-    opponent: {
+
+    player2: {
         role: "picker",
         currentPoint: 0,
         picture: ""
@@ -13,68 +14,68 @@ const playersReducerDefaultState = {
 
 export default (state = playersReducerDefaultState, action) => {
     switch (action.type) {
-        case "MYSELF_GET_ONE_POINT":
+        case "PLAYER1_GET_ONE_POINT":
             return {
                 ...state,
-                myself: {
-                    ...state.myself,
-                    currentPoint: ++state.myself.currentPoint
+                player1: {
+                    ...state.player1,
+                    currentPoint: ++state.player1.currentPoint
                 },
             };
 
-        case "OPPONENT_GET_ONE_POINT":
+        case "PLAYER2_GET_ONE_POINT":
             return {
                 ...state,
-                opponent: {
-                    ...state.opponent,
-                    currentPoint: ++state.opponent.currentPoint
+                player2: {
+                    ...state.player2,
+                    currentPoint: ++state.player2.currentPoint
                 }
             };
 
         case "SET_ROUND":
             return {
-                myself: {
-                    ...state.myself,
-                    role: action.myself
+                player1: {
+                    ...state.player1,
+                    role: action.player1
                 },
-                opponent: {
-                    ...state.opponent,
-                    role: action.opponent
+                player2: {
+                    ...state.player2,
+                    role: action.player2
                 }
             };
 
-        case "SET_MYSELF_PICTURE":
+        case "SET_PLAYER1_PICTURE":
             return {
                 ...state,
-                myself: {
-                    ...state.myself,
+                player1: {
+                    ...state.player1,
                     picture: action.picture
                 }
             };
 
-        case "SET_OPPONENT_PICTURE":
+        case "SET_PLAYER2_PICTURE":
             return {
                 ...state,
-                opponent: {
-                    ...state.opponent,
+                player2: {
+                    ...state.player2,
                     picture: action.picture
                 }
             }
 
-        case "REMOVE_MYSELF_PICTURE":
+        case "REMOVE_PLAYER1_PICTURE":
             return {
                 ...state,
-                myself: {
-                    ...state.myself,
+                player1: {
+                    ...state.player1,
                     picture: ""
                 }
             };
 
-        case "REMOVE_OPPONENT_PICTURE":
+        case "REMOVE_PLAYER2_PICTURE":
             return {
                 ...state,
-                opponent: {
-                    ...state.opponent,
+                player2: {
+                    ...state.player2,
                     picture: ""
                 }
             };

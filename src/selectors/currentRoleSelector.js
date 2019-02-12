@@ -1,6 +1,6 @@
 const currentRoleSelector = (auth, players) => {
     if(!auth.player){
-        return false
+        return false;
     } else{
         return players[auth.player].role;
     }

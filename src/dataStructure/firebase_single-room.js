@@ -1,27 +1,33 @@
 var singleRoom = {
     players: {
+        whoIsDrawing: "",
+
         player1: {
-            role: String,
-            currentPoint: Number,
-            picture: String
+            currentPoint: 0,
+            picture: ""
         },
 
         player2: {
-            role: String,
-            currentPoint: Number,
-            picture: String
+            currentPoint: 0,
+            picture: ""
         }
     },
 
     canvas: {
-        drawingStatus: String,
-        x: Number,
-        y: Number
+        drawingStatus: "",
+        x: 0,
+        y: 0
     },
 
     questions: {
-        quesList: Array,
-        randomAns: String,
-        opt: String
+        quesList: [],
+        randomAns: "",
+        opt: ""
     }
 }
+
+const playersInitData = singleRoom.players;
+const canvasInitData = singleRoom.canvas;
+const questionsInitData = singleRoom.questions;
+
+export { playersInitData, canvasInitData, questionsInitData };

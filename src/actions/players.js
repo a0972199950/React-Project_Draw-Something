@@ -1,72 +1,76 @@
 import database from "../firebase/firebase";
+import { playersInitData } from "../dataStructure/firebase_single-room";
 
 // react得分函數
-export const player1GetOnePoint = () => ({
-    type: "PLAYER1_GET_ONE_POINT"
+export const getOnePoint = (player, newPoint) => ({
+    type: "GET_ONE_POINT",
+    player, newPoint
 });
 
-export const player2GetOnePoint = () => ({
-    type: "PLAYER2_GET_ONE_POINT"
-});
+export const startGetOnePoint = (player) => {
+    return (dispatch, getState) => {
+        const newPoint = ++getState().players[player].currentPoint;
+
+        database.ref(`players/${player}`).update({
+            currentPoint: newPoint
+        }).then(() => {
+            dispatch(getOnePoint(player, newPoint));
+        }).catch((err) => {
+            console.log(`喔喔，startGetOnePoint壞掉囉！錯誤內容：${err}`);
+        })
+    }
+}
 
 
 
 // react設局函數
-export const setRound = ({ player1, player2 }) => ({
+export const setRound = (whoIsDrawing) => ({
     type: "SET_ROUND",
-    player1,
-    player2
+    whoIsDrawing
 });
 
-
-
-// firebase設局函數
-export const startSetRound = ({ player1, player2 }) => {
+export const startSetRound = (whoIsDrawing) => {
     return (dispatch) => {
-        database.ref("players").update({
-            player1,
-            player2
-        }).then(() => {
-            dispatch(setRound({
-                player1,
-                player2
-            }))
-        })
+        return database.ref("players/whoIsDrawing").set(whoIsDrawing).then(() => {
+            dispatch(setRound(whoIsDrawing));
+        }).catch((err) => {
+            console.log(`喔喔，startSetRound壞掉囉！錯誤內容：${err}`);
+        });
     };
 };
 
 
 
 // react設大頭照函數
-export const setPlayer1Picture = (picture) => ({
-    type: "SET_PLAYER1_PICTURE",
-    picture
+export const setPicture = (player, picture) => ({
+    type: "SET_PICTURE",
+    player, picture
 });
 
-export const setPlayer2Picture = (picture) => ({
-    type: "SET_PLAYER2_PICTURE",
-    picture
-});
-
-
-
-// firebase設大頭照函數
-export const startSetPlayer1Picture = (picture) => {
+export const startSetPicture = (player, picture) => {
     return (dispatch) => {
-        database.ref("players/player1/picture").set(picture).then(() => {
-            dispatch(setPlayer1Picture(picture));
+        database.ref(`players/${player}`).update({ picture }).then(() => {
+            dispatch(setPicture(player, picture));
         }).catch((err) => {
-            console.log(`喔喔，startSetPlayer1Picture壞掉囉！錯誤內容：${err}`);
+            console.log(`喔喔，startSetPicture壞掉囉！錯誤內容：${err}`);
         });
     };
 };
 
-export const startSetPlayer2Picture = (picture) => {
+
+
+// 初始化Players狀態
+export const initPlayers = (playersInitData) => ({
+    type: "INIT_PLAYERS",
+    playersInitData
+});
+
+export const startInitPlayers = () => {
     return (dispatch) => {
-        database.ref("players/player2/picture").set(picture).then(() => {
-            dispatch(setPlayer2Picture(picture));
+        database.ref("players").set(playersInitData).then(() => {
+            dispatch(initPlayers(playersInitData))
         }).catch((err) => {
-            console.log(`喔喔，startSetPlayer2Picture壞掉囉！錯誤內容：${err}`);
+            console.log(`喔喔，startInitPlayers壞掉囉！錯誤內容：${err}`);
         });
     };
 };
@@ -80,4 +84,4 @@ export const removePlayer1Picture = () => ({
 
 export const removePlayer2Picture = () => ({
     type: "REMOVE_PLAYER2_PICTURE"
-})
+});

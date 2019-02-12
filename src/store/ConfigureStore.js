@@ -4,7 +4,7 @@ import playersReducer from "../reducers/players";
 import questionsReducer from "../reducers/questions";
 import authReducer from "../reducers/auth";
 
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default () => {
     return createStore(combineReducers({
@@ -12,7 +12,7 @@ export default () => {
         questions: questionsReducer,
         auth: authReducer
     }),
-    // composeEnhancers(applyMiddleware(thunk))
-    applyMiddleware(thunk)
+    composeEnhancers(applyMiddleware(thunk))
+    // applyMiddleware(thunk)
     );    
 };

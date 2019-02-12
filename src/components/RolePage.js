@@ -3,40 +3,49 @@ import { connect } from "react-redux";
 
 import { history } from "../routers/AppRouter";
 
-import { startSetPlayer1Picture, startSetPlayer2Picture, setRound } from "../actions/players";
+import { startInitPlayers, startSetRound, startSetPicture } from "../actions/players";
+import { startInitQuestions } from "../actions/questions";
 import { setPlayer } from "../actions/auth";
 
 
-const RolePage = (props) => {
-    return (
-        <div>
-            <p>(此頁為一個暫時的page，僅用於開發測試)</p>
-            <p>選擇一個角色：</p>
-            <button 
-                onClick={() => {
-                    props.setRound({
-                        player1: "drawer",
-                        player2: "picker"
-                    });
-                    props.setPlayer("player1");
-                    props.startSetPlayer1Picture(props.auth.userPicture);
-                    history.push("/game");
-                }}>
-            Player1(drawer)</button>
+class RolePage extends React.Component{
+    componentDidMount = () => {
+        this.props.startInitPlayers();
+        this.props.startInitQuestions();
+    }
 
-            <button
-                onClick={() => {
-                    props.setRound({
-                        player1: "drawer",
-                        player2: "picker"
-                    });
-                    props.setPlayer("player2");
-                    props.startSetPlayer2Picture(props.auth.userPicture);
-                    history.push("/game");
-                }}
-            >Player2(picker)</button>
-        </div>
-    )
+    render(){
+        return (
+            <div>
+                <p>(此頁為一個暫時的page，僅用於開發測試)</p>
+                <p>選擇一個角色：</p>
+                <button 
+                    onClick={() => {
+                        this.props.setPlayer("player1");
+                        this.props.startSetRound("player1");
+
+                        setTimeout(() => {
+                            this.props.startSetPicture(this.props.auth.player, this.props.auth.userPicture);
+                            history.push("/game");
+                        }, 1000);
+                        
+                    }}>
+                Player1(drawer)</button>
+
+                <button
+                    onClick={() => {
+                        this.props.setPlayer("player2");
+                        this.props.startSetRound("player1");
+
+                        setTimeout(() => {
+                            this.props.startSetPicture(this.props.auth.player, this.props.auth.userPicture);
+                            history.push("/game");
+                        }, 1000);
+                    }}
+                >Player2(picker)</button>
+            </div>
+        )
+    }
 }
 
 const mapStateToProps = (state) => {
@@ -47,17 +56,20 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        startSetPlayer1Picture: (picture) => {
-            dispatch(startSetPlayer1Picture(picture))
+        startInitPlayers: () => {
+            dispatch(startInitPlayers())
         },
-        startSetPlayer2Picture: (picture) => {
-            dispatch(startSetPlayer2Picture(picture))
+        startInitQuestions: () => {
+            dispatch(startInitQuestions());
         },
-        setRound: (round) => {
-            dispatch(setRound(round));
+        startSetRound: (whoIsDrawing) => {
+            dispatch(startSetRound(whoIsDrawing));
         },
         setPlayer: (player) => {
             dispatch(setPlayer(player))
+        },
+        startSetPicture: (player, picture) => {
+            dispatch(startSetPicture(player, picture))
         }
     }
 }

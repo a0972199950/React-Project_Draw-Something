@@ -6,7 +6,7 @@ import database from "../firebase/firebase";
 
 class AnswerArea extends React.Component{
     state = {
-        opt: undefined
+        opt: false
     }
 
     componentWillMount = () => {
@@ -20,6 +20,7 @@ class AnswerArea extends React.Component{
     }
 
     componentWillUnmount = () => {
+        // 註銷監聽器
         database.ref("questions/opt").off();
     }
 

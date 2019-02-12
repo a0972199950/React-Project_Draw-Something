@@ -68,3 +68,14 @@ export const pickOpt = (opt) => {
         opt
     };
 };
+
+
+// 初始化firebase的questions
+export const startInitQuestions = () => {
+    return () => {
+        database.ref("questions").update({
+            opt: false,
+            randomAns: ""
+        })
+    }
+}

@@ -1,12 +1,12 @@
 const playersReducerDefaultState = {
+    whoIsDrawing: undefined,
+
     player1: {
-        role: "drawer",
         currentPoint: 0,
         picture: ""
     },
 
     player2: {
-        role: "picker",
         currentPoint: 0,
         picture: ""
     }
@@ -14,6 +14,31 @@ const playersReducerDefaultState = {
 
 export default (state = playersReducerDefaultState, action) => {
     switch (action.type) {
+        case "GET_ONE_POINT":
+            return action.player === "player1" ? (
+                {
+                    ...state,
+                    player1: {
+                        ...state.player1,
+                        currentPoint: action.newPoint
+                    }
+                }
+            ) : (
+                action.player === "player2" ? (
+                    {
+                        ...state,
+                        player2: {
+                            ...state.player2,
+                            currentPoint: action.newPoint
+                        }
+                    }
+                ) : (
+                    state
+                )
+            );
+
+        // TODO: 這邊開始待刪除
+        /*
         case "PLAYER1_GET_ONE_POINT":
             return {
                 ...state,
@@ -31,19 +56,39 @@ export default (state = playersReducerDefaultState, action) => {
                     currentPoint: ++state.player2.currentPoint
                 }
             };
+        */
 
         case "SET_ROUND":
             return {
-                player1: {
-                    ...state.player1,
-                    role: action.player1
-                },
-                player2: {
-                    ...state.player2,
-                    role: action.player2
-                }
+                ...state,
+                whoIsDrawing: action.whoIsDrawing
             };
 
+        case "SET_PICTURE":
+            return action.player === "player1" ? (
+                {
+                    ...state,
+                    player1: {
+                        ...state.player1,
+                        picture: action.picture
+                    }
+                }
+            ) : (
+                action.player === "player2" ? (
+                    {
+                        ...state,
+                        player2: {
+                            ...state.player2,
+                            picture: action.picture
+                        }
+                    }
+                ) : (
+                    state
+                )
+            )
+
+        // TODO: 這邊開始待刪除
+        /*
         case "SET_PLAYER1_PICTURE":
             return {
                 ...state,
@@ -61,6 +106,11 @@ export default (state = playersReducerDefaultState, action) => {
                     picture: action.picture
                 }
             }
+        */
+
+        case "INIT_PLAYERS":
+            return action.playersInitData;
+
 
         case "REMOVE_PLAYER1_PICTURE":
             return {

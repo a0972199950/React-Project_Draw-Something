@@ -13,7 +13,7 @@ class PickArea extends React.Component {
     state = {
         randomOpts: [],
         isCorrect: undefined
-    }
+    }    
 
     componentWillMount = () => {
         database.ref("questions/randomAns").on("value", (snapshot) => {
